@@ -8,10 +8,10 @@ namespace SMS_Backend.Models
     {
         [Key]
         [Column("academic_id")]
-        public string AcademicId { get; set; } = string.Empty;
+        public Guid AcademicId { get; set; }
 
         [Column("student_id")]
-        public string StudentId { get; set; } = string.Empty;
+        public Guid StudentId { get; set; }
 
         [Column("academic_year")]
         public string AcademicYear { get; set; } = string.Empty;
