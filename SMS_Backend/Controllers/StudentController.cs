@@ -1,0 +1,171 @@
+using Microsoft.AspNetCore.Mvc;
+using SMS_Backend.DTOs;
+using SMS_Backend.Services;
+
+namespace SMS_Backend.Controllers
+{
+[Route("api/students")]
+[ApiController]
+public class StudentController : ControllerBase
+{
+private readonly IStudentService _studentService;
+
+    public StudentController(IStudentService studentService)
+    {
+        _studentService = studentService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var students = await _studentService.GetAllStudentsAsync();
+
+        return Ok(new
+        {
+            success = true,
+            data = students
+        });
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var student = await _studentService.GetStudentByIdAsync(id);
+
+        if (student == null)
+        {
+            return NotFound(new
+            {
+                success = false,
+                message = "Student not found"
+            });
+        }
+
+        return Ok(new
+        {
+            success = true,
+            data = student
+        });
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> Create(
+        [FromBody] CreateStudentDto studentDto
+    )
+    {
+        try
+        {
+            // Validation check
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Save student
+            var result = await _studentService.CreateStudentAsync(studentDto);
+
+            if (!result)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "Failed to create student"
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                message = "Student created successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new
+            {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> Update(
+        string id,
+        [FromBody] CreateStudentDto studentDto
+    )
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _studentService.UpdateStudentAsync(id, studentDto);
+
+            if (!result)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "Failed to update student"
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                message = "Student updated successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new
+            {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> Delete(string id)
+    {
+        try
+        {
+            var result = await _studentService.DeleteStudentAsync(id);
+
+            if (!result)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "Failed to delete student"
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                message = "Student deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new
+            {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+}
+
+}
