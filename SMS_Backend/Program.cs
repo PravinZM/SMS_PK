@@ -44,7 +44,7 @@ using (var scope = app.Services.CreateScope())
     {
         context.LmsUsers.Add(new LmsUser
         {
-            lms_user_id = System.Guid.NewGuid().ToString(),
+            lms_user_id = System.Guid.NewGuid(),
             full_name = "System Admin",
             email = "admin@sms.com",
             password = "password123",

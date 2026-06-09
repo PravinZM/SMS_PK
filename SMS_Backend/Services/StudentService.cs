@@ -45,7 +45,7 @@ namespace SMS_Backend.Services
             return students;
         }
 
-        public async Task<StudentResponseDto?> GetStudentByIdAsync(string id)
+        public async Task<StudentResponseDto?> GetStudentByIdAsync(Guid id)
         {
             var student = await (from s in _context.Students
                                  join a in _context.StudentAcademics on s.StudentId equals a.StudentId into sa
@@ -100,10 +100,10 @@ public async Task<bool> CreateStudentAsync(CreateStudentDto dto)
     {
         Console.WriteLine("===== CREATE STUDENT START =====");
 
-        var studentId = Guid.NewGuid().ToString();
-        var parentId = Guid.NewGuid().ToString();
-        var mappingId = Guid.NewGuid().ToString();
-        var academicId = Guid.NewGuid().ToString();
+        var studentId = Guid.NewGuid();
+        var parentId = Guid.NewGuid();
+        var mappingId = Guid.NewGuid();
+        var academicId = Guid.NewGuid();
 
         // ==========================
         // SAVE STUDENT
@@ -222,7 +222,7 @@ public async Task<bool> CreateStudentAsync(CreateStudentDto dto)
 }
 
 
-public async Task<bool> UpdateStudentAsync(string id, CreateStudentDto dto)
+public async Task<bool> UpdateStudentAsync(Guid id, CreateStudentDto dto)
 {
     using var transaction = await _context.Database.BeginTransactionAsync();
 
@@ -318,7 +318,7 @@ public async Task<bool> UpdateStudentAsync(string id, CreateStudentDto dto)
     }
 }
 
-        public async Task<bool> DeleteStudentAsync(string id)
+        public async Task<bool> DeleteStudentAsync(Guid id)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try

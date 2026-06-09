@@ -28,7 +28,7 @@ private readonly IStudentService _studentService;
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(string id)
+    public async Task<IActionResult> GetById(Guid id)
     {
         var student = await _studentService.GetStudentByIdAsync(id);
 
@@ -93,7 +93,7 @@ private readonly IStudentService _studentService;
 
     [HttpPut("update/{id}")]
     public async Task<IActionResult> Update(
-        string id,
+        Guid id,
         [FromBody] CreateStudentDto studentDto
     )
     {
@@ -134,7 +134,7 @@ private readonly IStudentService _studentService;
     }
 
     [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         try
         {

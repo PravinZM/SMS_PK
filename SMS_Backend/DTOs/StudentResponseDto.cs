@@ -2,7 +2,7 @@ namespace SMS_Backend.DTOs
 {
     public class StudentResponseDto
     {
-        public string StudentId { get; set; } = string.Empty;
+        public Guid StudentId { get; set; }
         public string AdmissionNo { get; set; } = string.Empty;
         public string RollNo { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;

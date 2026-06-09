@@ -8,7 +8,7 @@ namespace SMS_Backend.Models
     {
         [Key]
         [Column("parent_id")]
-        public string ParentId { get; set; } = string.Empty;
+        public Guid ParentId { get; set; }
 
         [Column("father_name")]
         public string FatherName { get; set; } = string.Empty;

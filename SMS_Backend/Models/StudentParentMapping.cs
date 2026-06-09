@@ -8,12 +8,15 @@ namespace SMS_Backend.Models
     {
         [Key]
         [Column("mapping_id")]
-        public string MappingId { get; set; } = string.Empty;
+        public Guid MappingId { get; set; }
 
         [Column("student_id")]
-        public string StudentId { get; set; } = string.Empty;
+        public Guid StudentId { get; set; }
 
         [Column("parent_id")]
-        public string ParentId { get; set; } = string.Empty;
+        public Guid ParentId { get; set; }
+
+        [Column("relationship_type")]
+        public string RelationshipType { get; set; } = string.Empty;
     }
 }
