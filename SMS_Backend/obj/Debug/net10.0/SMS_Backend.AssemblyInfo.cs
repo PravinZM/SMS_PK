@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SMS_Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ae26c0bbd1f103141e0d829f9a3a9013b0db84f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd9b6c61b29e5ffb5c2b8eadd6c3f35b51261345")]
 [assembly: System.Reflection.AssemblyProductAttribute("SMS_Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SMS_Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
