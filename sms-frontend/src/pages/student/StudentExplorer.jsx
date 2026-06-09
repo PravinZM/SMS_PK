@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '../../layout/MainLayout';
 import studentService from '../../services/studentService';
-import { UserGraduate } from 'lucide-react'; // Using lucide icon instead of FontAwesome
+import { GraduationCap } from 'lucide-react'; 
 import './StudentExplorer.css';
 
 const StudentExplorer = () => {
@@ -268,6 +268,7 @@ const StudentExplorer = () => {
                         </>
                     ) : (
                         <div className="empty-details">
+                            <GraduationCap size={48} strokeWidth={1} />
                             <p>Select a student to view full profile details</p>
                         </div>
                     )}
