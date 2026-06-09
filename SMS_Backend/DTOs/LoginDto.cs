@@ -2,8 +2,8 @@ namespace SMS_Backend.DTOs
 {
     public class LoginDto
     {
-        public required string email { get; set; }
+        public string email { get; set; }
 
-        public required string password { get; set; }
+        public string password { get; set; }
     }
 }

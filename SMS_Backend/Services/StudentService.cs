@@ -47,8 +47,6 @@ namespace SMS_Backend.Services
 
         public async Task<StudentResponseDto?> GetStudentByIdAsync(string id)
         {
-            if (!Guid.TryParse(id, out var guidId)) return null;
-
             var student = await (from s in _context.Students
                                  join a in _context.StudentAcademics on s.StudentId equals a.StudentId into sa
                                  from a in sa.DefaultIfEmpty()
@@ -56,7 +54,7 @@ namespace SMS_Backend.Services
                                  from m in sm.DefaultIfEmpty()
                                  join p in _context.Parents on m.ParentId equals p.ParentId into mp
                                  from p in mp.DefaultIfEmpty()
-                                 where s.StudentId == guidId
+                                 where s.StudentId == id
                                  select new StudentResponseDto
                                  {
                                      StudentId = s.StudentId,
@@ -94,18 +92,18 @@ namespace SMS_Backend.Services
                                      }
 
 
-        public async Task<bool> CreateStudentAsync(CreateStudentDto dto)
-        {
-            using var transaction = await _context.Database.BeginTransactionAsync();
+public async Task<bool> CreateStudentAsync(CreateStudentDto dto)
+{
+    using var transaction = await _context.Database.BeginTransactionAsync();
 
-            try
-            {
-                Console.WriteLine("===== CREATE STUDENT START =====");
+    try
+    {
+        Console.WriteLine("===== CREATE STUDENT START =====");
 
-                var studentId = Guid.NewGuid();
-                var parentId = Guid.NewGuid();
-                var mappingId = Guid.NewGuid();
-                var academicId = Guid.NewGuid();
+        var studentId = Guid.NewGuid().ToString();
+        var parentId = Guid.NewGuid().ToString();
+        var mappingId = Guid.NewGuid().ToString();
+        var academicId = Guid.NewGuid().ToString();
 
         // ==========================
         // SAVE STUDENT
@@ -175,7 +173,7 @@ namespace SMS_Backend.Services
             AcademicYear = dto.AcademicYear,
             ClassName = dto.StudentClass,
             Section = dto.Section,
-            AdmissionDate = dto.AdmissionDate
+            AdmissionDate = dto.AdmissionDate 
         };
 
         _context.StudentAcademics.Add(academic);
@@ -226,13 +224,11 @@ namespace SMS_Backend.Services
 
 public async Task<bool> UpdateStudentAsync(string id, CreateStudentDto dto)
 {
-    if (!Guid.TryParse(id, out var guidId)) return false;
-
     using var transaction = await _context.Database.BeginTransactionAsync();
 
     try
     {
-        var student = await _context.Students.FindAsync(guidId);
+        var student = await _context.Students.FindAsync(id);
 
         if (student == null)
             return false;
@@ -265,7 +261,7 @@ public async Task<bool> UpdateStudentAsync(string id, CreateStudentDto dto)
         // =========================
 
         var mapping = await _context.StudentParentMappings
-            .FirstOrDefaultAsync(m => m.StudentId == guidId);
+            .FirstOrDefaultAsync(m => m.StudentId == id);
 
         if (mapping != null)
         {
@@ -293,7 +289,7 @@ public async Task<bool> UpdateStudentAsync(string id, CreateStudentDto dto)
         // =========================
 
         var academic = await _context.StudentAcademics
-            .FirstOrDefaultAsync(a => a.StudentId == guidId);
+            .FirstOrDefaultAsync(a => a.StudentId == id);
 
         if (academic != null)
         {
@@ -324,15 +320,13 @@ public async Task<bool> UpdateStudentAsync(string id, CreateStudentDto dto)
 
         public async Task<bool> DeleteStudentAsync(string id)
         {
-            if (!Guid.TryParse(id, out var guidId)) return false;
-
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                var student = await _context.Students.FindAsync(guidId);
+                var student = await _context.Students.FindAsync(id);
                 if (student == null) return false;
 
-                var mapping = await _context.StudentParentMappings.FirstOrDefaultAsync(m => m.StudentId == guidId);
+                var mapping = await _context.StudentParentMappings.FirstOrDefaultAsync(m => m.StudentId == id);
                 if (mapping != null)
                 {
                     var parentId = mapping.ParentId;
@@ -347,7 +341,7 @@ public async Task<bool> UpdateStudentAsync(string id, CreateStudentDto dto)
                     }
                 }
 
-                var academics = _context.StudentAcademics.Where(a => a.StudentId == guidId);
+                var academics = _context.StudentAcademics.Where(a => a.StudentId == id);
                 _context.StudentAcademics.RemoveRange(academics);
 
                 _context.Students.Remove(student);

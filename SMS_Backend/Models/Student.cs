@@ -8,7 +8,7 @@ namespace SMS_Backend.Models
     {
         [Key]
         [Column("student_id")]
-        public Guid StudentId { get; set; }
+        public string StudentId { get; set; } = string.Empty;
 
         [Column("admission_no")]
         public string AdmissionNo { get; set; } = string.Empty;
