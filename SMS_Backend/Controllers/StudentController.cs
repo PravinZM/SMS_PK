@@ -133,39 +133,69 @@ private readonly IStudentService _studentService;
         }
     }
 
-    [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        try
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _studentService.DeleteStudentAsync(id);
-
-            if (!result)
+            try
             {
+                var result = await _studentService.DeleteStudentAsync(id);
+
+                if (!result)
+                {
+                    return StatusCode(500, new
+                    {
+                        success = false,
+                        message = "Failed to delete student"
+                    });
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Student deleted successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
                 return StatusCode(500, new
                 {
                     success = false,
-                    message = "Failed to delete student"
+                    message = ex.Message
                 });
             }
-
-            return Ok(new
-            {
-                success = true,
-                message = "Student deleted successfully"
-            });
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
 
-            return StatusCode(500, new
-            {
-                success = false,
-                message = ex.Message
-            });
+        // Explorer Endpoints
+
+        [HttpGet("classes")]
+        public async Task<IActionResult> GetClasses()
+        {
+            var classes = await _studentService.GetClassesAsync();
+            return Ok(new { success = true, data = classes });
+        }
+
+        [HttpGet("sections/{className}")]
+        public async Task<IActionResult> GetSections(string className)
+        {
+            var sections = await _studentService.GetSectionsByClassAsync(className);
+            return Ok(new { success = true, data = sections });
+        }
+
+        [HttpGet("list/{className}/{section}")]
+        public async Task<IActionResult> GetStudentsByClassAndSection(string className, string section)
+        {
+            var students = await _studentService.GetStudentsByClassAndSectionAsync(className, section);
+            return Ok(new { success = true, data = students });
+        }
+
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> GetDetails(Guid id)
+        {
+            var student = await _studentService.GetStudentByIdAsync(id);
+            if (student == null) return NotFound(new { success = false, message = "Student not found" });
+            return Ok(new { success = true, data = student });
         }
     }
-}
-
 }

@@ -357,5 +357,48 @@ public async Task<bool> UpdateStudentAsync(Guid id, CreateStudentDto dto)
                 return false;
             }
         }
+
+        public async Task<IEnumerable<string>> GetClassesAsync()
+        {
+            return await _context.StudentAcademics
+                .Select(a => a.ClassName)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetSectionsByClassAsync(string className)
+        {
+            return await _context.StudentAcademics
+                .Where(a => a.ClassName == className)
+                .Select(a => a.Section)
+                .Distinct()
+                .OrderBy(s => s)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<StudentResponseDto>> GetStudentsByClassAndSectionAsync(string className, string section)
+        {
+            return await (from s in _context.Students
+                          join a in _context.StudentAcademics on s.StudentId equals a.StudentId
+                          where a.ClassName == className && a.Section == section
+                          orderby s.FirstName, s.LastName
+                          select new StudentResponseDto
+                          {
+                              StudentId = s.StudentId,
+                              AdmissionNo = s.AdmissionNo,
+                              RollNo = s.RollNo,
+                              FirstName = s.FirstName,
+                              LastName = s.LastName,
+                              Gender = s.Gender,
+                              Dob = s.Dob,
+                              MobileNumber = s.MobileNumber,
+                              Email = s.Email,
+                              Status = s.Status,
+                              StudentClass = a.ClassName,
+                              Section = a.Section,
+                              AcademicYear = a.AcademicYear
+                          }).ToListAsync();
+        }
     }
 }

@@ -9,5 +9,10 @@ namespace SMS_Backend.Services
         Task<bool> CreateStudentAsync(CreateStudentDto studentDto);
         Task<bool> UpdateStudentAsync(Guid id, CreateStudentDto studentDto);
         Task<bool> DeleteStudentAsync(Guid id);
+
+        // Explorer Methods
+        Task<IEnumerable<string>> GetClassesAsync();
+        Task<IEnumerable<string>> GetSectionsByClassAsync(string className);
+        Task<IEnumerable<StudentResponseDto>> GetStudentsByClassAndSectionAsync(string className, string section);
     }
 }

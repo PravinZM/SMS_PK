@@ -7,6 +7,7 @@ import Quizzes from "./pages/lms/Quizzes";
 import Notifications from "./pages/lms/Notifications";
 import Students from "./pages/student/Students";
 import StudentReports from "./pages/student/StudentReports";
+import StudentExplorer from "./pages/student/StudentExplorer";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
 
         {/* Student Module Routes */}
         <Route path="/student/students" element={<Students />} />
+        <Route path="/student/explorer" element={<StudentExplorer />} />
         <Route path="/student/student-reports" element={<StudentReports />} />
 
         {/* Catch-all to redirect to dashboard if logged in (simple logic for now) */}

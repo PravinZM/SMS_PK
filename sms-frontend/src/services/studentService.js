@@ -51,6 +51,42 @@ const studentService = {
       console.log("FULL BACKEND ERROR:", error.response?.data);
       throw error.response ? error.response.data : new Error('Network error');
     }
+  },
+
+  getClasses: async () => {
+    try {
+      const response = await axios.get(`${API_URL}/classes`);
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error('Network error');
+    }
+  },
+
+  getSections: async (className) => {
+    try {
+      const response = await axios.get(`${API_URL}/sections/${className}`);
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error('Network error');
+    }
+  },
+
+  getStudentsByClassAndSection: async (className, section) => {
+    try {
+      const response = await axios.get(`${API_URL}/list/${className}/${section}`);
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error('Network error');
+    }
+  },
+
+  getStudentDetails: async (id) => {
+    try {
+      const response = await axios.get(`${API_URL}/details/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error('Network error');
+    }
   }
 };
 

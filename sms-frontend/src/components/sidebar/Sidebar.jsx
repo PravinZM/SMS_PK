@@ -10,7 +10,8 @@ import {
   GraduationCap,
   Bell,
   UserCircle,
-  ClipboardList
+  ClipboardList,
+  Search
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -53,6 +54,7 @@ const Sidebar = () => {
       path: '/student',
       submenus: [
         { name: 'Students', icon: <UserCircle size={16} />, path: '/student/students' },
+        { name: 'Student Explorer', icon: <Search size={16} />, path: '/student/explorer' },
         { name: 'Student Reports', icon: <ClipboardList size={16} />, path: '/student/student-reports' }
       ]
     }
